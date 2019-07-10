@@ -1,2 +1,2 @@
 # Malloc
-An implementation of the malloc function
+An implementation of the malloc function.
