@@ -26,7 +26,7 @@
 
 # include <sys/mman.h>
 # include <unistd.h>
-# include "b_printf/b_printf.h"
+# include "../b_printf/b_printf.h"
 
 struct					s_bstatus
 {

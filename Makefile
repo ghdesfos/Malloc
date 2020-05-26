@@ -33,7 +33,11 @@ SRC = 	malloc.c\
 		print_mmap_areas.c\
 		print_mmap_areas_sub.c\
 		show_alloc_mem.c
-OBJ = $(SRC:.c=.o)
+FILES = $(addprefix sources/, $(SRC))
+OBJ = $(FILES:.c=.o)
+INCLUDES = includes/
+HEADERS = includes/header.h
+
 FLAGS =-Wall -Wextra -Werror
 B_PRINTF_FOLD = b_printf
 B_PRINTF_NAME = ftprintf
@@ -46,11 +50,11 @@ $(NAME): $(OBJ)
 	gcc $(FLAGS) -shared -L$(B_PRINTF_FOLD) -l$(B_PRINTF_NAME) -o $@ $^
 	ln -sf $(NAME) $(LINK)
 
-%.o: %.c header.h
-	gcc $(FLAGS) -I $(B_PRINTF_FOLD) -fpic -c -o $@ $<
+%.o: %.c $(HEADERS)
+	gcc $(FLAGS) -I $(B_PRINTF_FOLD) -I $(INCLUDES) -fpic -c -o $@ $<
 
 exec: re
-	gcc ./test_files/main.c -I. -I./b_printf -L. -lft_malloc -o $(EXEC)
+	gcc ./test_files/main.c -I. -I $(B_PRINTF_FOLD) -I $(INCLUDES) -L. -lft_malloc -o $(EXEC)
 	./config.sh ./$(EXEC)
 
 clean:
